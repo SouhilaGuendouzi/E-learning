@@ -1,5 +1,5 @@
 # E-learning
-create table salle (id_salle int primary key );
+create table salle (id_salle int primary key , salle varchar(20), type varchar(20) , check(type in ('TD','COURS,'TP'));
 CREATE TABLE spécialité ( id_spec int primary key , nom varchar (20));
 CREATE TABLE année ( id_année int primary key , année varchar (20));
 create table niveau (id_niv int PRIMARY key , id_spec int , FOREIGN KEY(id_spec) REFERENCES spécialité(id_spec),id_année int , FOREIGN KEY(id_année) REFERENCES année(id_année));
