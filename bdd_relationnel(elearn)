@@ -1,0 +1,15 @@
+Séance ( id , idMOdule, id GROUPE, type_seance, jour , heure début , heure fin , idSALLE )
+Salle ( id , salle)
+Année ( id , nom)
+Niveau ( id , idSpecialité , id Année )
+Specialité ( id , nom )
+GROUPE ( id , codeGroupe , idNiveau)
+Enseignant (id , nom , prénom , date naissance , lieu de naissance , grade )
+Module (id , nom , id ENSEIGNANT , id Niveau)
+Etudiant (id , nom , prénom , date naissance, IDGROUPE)
+ 
+ 
+ 
+ 
+ 
+ HNA FAHMI CHARANI 9ASSda psk reani mbadla issmawate
