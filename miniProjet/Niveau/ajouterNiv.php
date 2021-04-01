@@ -1,11 +1,8 @@
 <?php
 
         $id_niv=$_POST["id_niv"];
-        $id_niv=(int)$id_niv;
         $id_spec=$_POST["spécialité"];
-        $id_spec=(int) $id_spec;
         $id_année=$_POST["année"];
-        $id_année=(int) $id_année;
         $host = "mysql:host = localhost ; dbname =elearn"; 
         $stop=FALSE;
         $stop1=FALSE; 

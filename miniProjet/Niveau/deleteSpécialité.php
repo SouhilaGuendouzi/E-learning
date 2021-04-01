@@ -1,6 +1,5 @@
 <?php
 $id_spec=$_GET['id_spec'];
-$id_spec=(int)$id_spec;
 $host = "mysql:host = localhost ; dbname =elearn";
 $pdo = new PDO( $host, "root", "");
 $req=$pdo->prepare("select * from elearn.niveau  where id_spec=?");
@@ -16,6 +15,10 @@ while ($result = $req->fetch(PDO::FETCH_ASSOC))
         $req2=$pdo->prepare("update elearn.etudiant set id_groupe=-1  where id_groupe=?");
         $req2->bindParam(1,$result1["id_groupe"]);
         $req2->execute();
+        $req2=$pdo->prepare("update elearn.séance set id_groupe=-1  where id_groupe=?");
+        $req2->bindParam(1,$result1["id_groupe"]);
+        $req2->execute();
+
     }
     $req3=$pdo->prepare("delete from elearn.groupe  where id_niv=?");
     $req3->bindParam(1,$result["id_niv"]);

@@ -9,7 +9,6 @@
 <body>
 <?php
 $id_niv=$_POST['id_niv'];
-$id_niv=(int)$id_niv;
 $host = "mysql:host = localhost ; dbname =elearn";
 if (!empty($id_niv)){
 $pdo = new PDO( $host, "root", "");

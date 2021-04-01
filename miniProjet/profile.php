@@ -143,11 +143,11 @@ session_start()
             <div class="welcome">
            <h1>Soyez les Bienvenus <?php echo $login; ?> ! </h1> 
            <a class="btn1  "href="enseignant/liste_enseignants.php">Afficher les Enseignants </a> 
-           <a class="btn1  " href="Niveau/listes_niveaux.php"> Afficher les étudiants </a>
-           <a class="btn1  " href="service_employes.php"> Afficher les niveaux</a>
-           <a class="btn1  " href="service_employes.php"> Afficher les modules </a>
-           <a class="btn1  " href="service_employes.php"> Afficher les groupes </a>
-           
+           <a class="btn1  " href="etudiant/listes_etudiants.php"> Afficher les étudiants </a>
+           <a class="btn1  " href="Niveau/listes_niveaux.php"> Afficher les niveaux</a>
+           <a class="btn1  " href="module/listes_module.php"> Afficher les modules </a>
+           <a class="btn1  " href="Groupe/listes_groupes.php"> Afficher les Séances </a>
+           <a class="btn1  " href="salle/liste_salles.php"> Afficher les Salles</a>
            </div>
            <?php
         }

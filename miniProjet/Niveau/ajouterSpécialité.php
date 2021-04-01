@@ -1,8 +1,5 @@
-<?php
-
-       
+<?php 
         $id_spec=$_POST["id_spec"];
-        $id_spec=(int) $id_spec;
         $nom=$_POST["spécialité"];
         $host = "mysql:host = localhost ; dbname =elearn"; 
         $stop=FALSE;

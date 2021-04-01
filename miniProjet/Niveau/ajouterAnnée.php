@@ -1,8 +1,5 @@
-<?php
-
-       
+<?php   
         $id_année=$_POST["id_année"];
-        $id_année=(int) $id_année;
         $année=$_POST["année"];
         $host = "mysql:host = localhost ; dbname =elearn"; 
         $stop=FALSE;

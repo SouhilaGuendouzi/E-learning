@@ -9,7 +9,6 @@
 <body>
 <?php
 $id_etud=$_POST['id_etud'];
-$id_etud=(int)$id_etud;
 $host = "mysql:host = localhost ; dbname =elearn";
 if (!empty($id_etud)){
 $pdo = new PDO( $host, "root", "");
@@ -41,8 +40,7 @@ while ($result = $req->fetch(PDO::FETCH_ASSOC))
             <label  for="groupe">Groupe &nbsp&nbsp&nbsp</label>
             <select name="groupe" id="groupe">
             <?php 
-                    $req3=$pdo->prepare("select * from elearn.groupe natural join elearn.niveau natural join elearn.spécialité natural join elearn.année ");    
-                  
+                    $req3=$pdo->prepare("select * from elearn.groupe natural join elearn.niveau natural join elearn.spécialité natural join elearn.année "); 
                     $req3->execute();
                     while ($result3 = $req3->fetch(PDO::FETCH_ASSOC))
                     { 

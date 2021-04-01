@@ -163,19 +163,19 @@ select {
             {  ?>
 
             <h1>La liste des Groupes</h1>
-            <button href="#d1" onclick="display()" class="ajouter">Ajouter Un groupe</button>
+            <button href="#d1" onclick="display()" class="ajouter">Ajouter Une Salle</button>
             <table class="blue">
             <thead>
               <tr>
               <th>Identifiant</th>
-              <th>Nom  </th>
-              <th>Niveau </th>
+              <th>Salle </th>
+              <th>Type </th>
               <th>Option</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $req=$pdo->prepare("select id_groupe , nomGroupe, nom , année from elearn.groupe natural join elearn.niveau natural join elearn.année natural join elearn.spécialité ");
+                $req=$pdo->prepare("select * from elearn.salle");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
                 {
@@ -183,22 +183,34 @@ select {
                        <tr>
                         <td>
                        <?php     
-                       echo $result["id_groupe"];
+                       echo $result["id_salle"];
                        ?>
                      
                    </td>
                    <td>
                        <?php
-                       echo $result["nomGroupe"];
+                       echo $result["salle"];
                        ?>
                       </td>
                       <td>
                        <?php
-                      echo $result["année"]."année ".$result["nom"];;
+                      echo $result["type"];
                        ?>                     
                            <td>
-                           <button class="save"href="#d2" onclick="window.location.href='afficherGroupe.php?id_groupe=<?php echo $result['id_groupe'];?>'">Plus de détails</button>
-                           <button class="cancel" onclick="window.location.href='deleteGroupe.php?id_groupe=<?php echo $result['id_groupe'];?>'">Supprimer</button>
+                           <button class="save"href="#d2" onclick="update(<?php echo $result['id_salle'];?>)">Modifier</button>
+                           <script>
+                           function update(a){                       
+                        var theObject = new XMLHttpRequest();
+                         theObject.open('POST', 'editSalle.php', true);
+                         theObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          theObject.onreadystatechange = function() {
+                         if(theObject.readyState === 4 & theObject.status === 200) {
+                          document.getElementById('d2').innerHTML = theObject.responseText;}
+                              }
+                       theObject.send('id_salle='+a);
+  }
+                           </script>
+                           <button class="cancel" onclick="window.location.href='deleteSalle.php?id_salle=<?php echo $result['id_salle'];?>'">Supprimer</button>
                           </td>
                             <?php
                 }                
@@ -206,45 +218,24 @@ select {
              <tbody>
              </table>
              <div id="d1">
-             <h3> Informations sur le Nouveau Groupe  </h3>
-              <form class ="form" action="ajouterGroupe.php" method="post" >
+             <h3> Informations sur la Nouvelle Salle</h3>
+              <form class ="form" action="ajouterSalle.php" method="post" >
               <div class="control-group">
-                   <label  for="id_groupe">Identifiant &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="id_groupe" id="id_groupe">   
+                   <label  for="id_salle">Identifiant &nbsp&nbsp&nbsp </label>
+                   <input class="in"type="text" name="id_salle" id="id_salle">   
              </div>&nbsp&nbsp&nbsp
              <div class="control-group">
-                   <label  for="nomGroupe">Nom &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="nomGroupe" id="nomGroupe">   
+                   <label  for="nom">Salle &nbsp&nbsp&nbsp </label>
+                   <input class="in"type="text" name="nom" id="nom">   
              </div>&nbsp&nbsp&nbsp
               <div class="control-group">
-                   <label  for="nomGroupe">Niveau &nbsp&nbsp&nbsp</label>
-                   <select name="niveau" id="niveau"> 
-                   <?php 
-                    $req4=$pdo->prepare("select * from elearn.niveau ");
-                    $req4->execute();
-                    while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
-                    {  
-                      $req5=$pdo->prepare("select * from  elearn.année where id_année=?");
-                      $req5->bindParam(1,$result4["id_année"]);
-                      $req5->execute();
-                      while ($result5 = $req5->fetch(PDO::FETCH_ASSOC))
-                      {
-                        $id_année=$result5["année"];
-                      }
-                      $req5=$pdo->prepare("select * from  elearn.spécialité where id_spec=?");
-                      $req5->bindParam(1,$result4["id_spec"]);
-                      $req5->execute();
-                      while ($result5 = $req5->fetch(PDO::FETCH_ASSOC))
-                      {
-                        $id_spec=$result5["nom"];
-                      }
-                      ?>
-               <option value="<?php echo $result4["id_niv"];?>"><?php echo $id_année." année  ".$id_spec;?></option>
-                        <?php
-                   
-                    }
-                   ?> 
-                   </select>               
+                   <label  for="type">Type &nbsp&nbsp&nbsp</label>
+                   <select name="type" id="type">    
+                   <option value="TD">TD</option>
+                   <option value="TP">TP</option>      
+                   <option value="COURS">COURS</option>   
+                   </select> 
+                </div>              
              
               <div class="btngroup">             
                    <input id ="A" class="save" type="submit" value="Ajouter">
@@ -274,6 +265,7 @@ select {
     
 
 function display() {
+document.getElementById('d2').style.display="none";
 document.getElementById('d1').style.display="block";
 }
 function cacher() {

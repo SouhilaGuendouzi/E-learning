@@ -19,6 +19,9 @@ while ($result3 = $req3->fetch(PDO::FETCH_ASSOC))
     $req6=$pdo->prepare("update elearn.etudiant set id_groupe=-1 where id_groupe=?");
     $req6->bindParam(1,$result3['id_groupe']);
     $req6->execute();
+    $req2=$pdo->prepare("update elearn.séance set id_groupe=-1  where id_groupe=?");
+    $req2->bindParam(1,$result1["id_groupe"]);
+    $req2->execute();
     $req4=$pdo->prepare("delete from elearn.groupe where id_groupe=?");
     $req4->bindParam(1,$result3['id_groupe']);
     $req4->execute();

@@ -1,7 +1,6 @@
 <?php
 
         $id_ens=$_POST["id_ens"];
-        $id_ens=(int)$id_ens;
         $nom=$_POST["nom"];
         $prénom=$_POST["prénom"];
         $date_naissance=$_POST["date_naissance"];

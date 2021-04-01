@@ -4,8 +4,7 @@ session_start()
 <!DOCTYPE html>
 <html>
     <head>
-    <script type="text/javascript" src="../jquery.min.js">
-    var s=null;</script>
+    <script type="text/javascript" src="../jquery.min.js"></script>
         <title>
             Liste
          </title>

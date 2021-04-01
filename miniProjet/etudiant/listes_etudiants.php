@@ -168,7 +168,7 @@ select {
             if ($stop==TRUE)
             {  ?>
 
-            <h1>La liste des Enseignants </h1>
+            <h1>La liste des Etudiants </h1>
             <button href="#d1" onclick="display()" class="ajouter">Ajouter</button>
             <table class="blue">
             <thead>
@@ -311,6 +311,7 @@ select {
     
 
 function display() {
+  document.getElementById('d2').style.display="none";
 document.getElementById('d1').style.display="block";
 }
 function cacher() {

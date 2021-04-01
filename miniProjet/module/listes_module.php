@@ -75,7 +75,7 @@ background:#BDC3C7;
         border-width: 2px;
         border-radius: 22px;
         padding: 10px 40px;
-        margin-left:45%;   
+        margin-left:40%;   
         margin-bottom:2%;     
     }
   
@@ -144,8 +144,8 @@ select {
 <body class="bd">
     <?php
     $login=$_SESSION["login"];
-    $id_année=null;
-    $id_spec=null;
+    $année=null;
+    $spec=null;
     $pass=$_SESSION["pass"];
     $host = "mysql:host = localhost ; dbname =elearn";
     if (!empty($login)&&(!empty($pass))){
@@ -162,20 +162,21 @@ select {
             if ($stop==TRUE)
             {  ?>
 
-            <h1>La liste des Groupes</h1>
-            <button href="#d1" onclick="display()" class="ajouter">Ajouter Un groupe</button>
+            <h1>La liste des Modules</h1>
+            <button href="#d1" onclick="display()" class="ajouter">Ajouter Un Module</button>
             <table class="blue">
             <thead>
               <tr>
               <th>Identifiant</th>
               <th>Nom  </th>
               <th>Niveau </th>
+              <th>Responsable</th>
               <th>Option</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $req=$pdo->prepare("select id_groupe , nomGroupe, nom , année from elearn.groupe natural join elearn.niveau natural join elearn.année natural join elearn.spécialité ");
+                $req=$pdo->prepare("select * from  elearn.module natural join elearn.niveau   ");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
                 {
@@ -183,22 +184,63 @@ select {
                        <tr>
                         <td>
                        <?php     
-                       echo $result["id_groupe"];
+                       echo $result["id_mod"];
                        ?>
                      
                    </td>
                    <td>
                        <?php
-                       echo $result["nomGroupe"];
+                       echo $result["nom"];
                        ?>
                       </td>
                       <td>
                        <?php
-                      echo $result["année"]."année ".$result["nom"];;
-                       ?>                     
+
+                    $req1=$pdo->prepare("select * from elearn.année where id_année=?");
+                    $req1->bindParam(1,$result["id_année"]);
+                    $req1->execute();
+                    while ($result1 = $req1->fetch(PDO::FETCH_ASSOC))
+                    {
+                          $année=$result1["année"];
+                        
+                    }
+                    $req1=$pdo->prepare("select * from elearn.spécialité where id_spec=?   ");
+                    $req1->bindParam(1,$result["id_spec"]);
+                    $req1->execute();
+                    while ($result1 = $req1->fetch(PDO::FETCH_ASSOC))
+                    {
+                          $spec=$result1["nom"];
+                    }
+
+                      echo $année." année ".$spec;
+                       ?> 
+                       </td>
+
+                       <td>
+                      <?php $req1=$pdo->prepare("select * from elearn.enseignant where id_ens=?   ");
+                            $req1->bindParam(1,$result["id_ens"]);
+                            $req1->execute();
+                            while ($result1 = $req1->fetch(PDO::FETCH_ASSOC))
+                            {
+                                  echo $result1["nom"]." ".$result1["prénom"];
+                            }
+                    ?>
+                       </td>                    
                            <td>
-                           <button class="save"href="#d2" onclick="window.location.href='afficherGroupe.php?id_groupe=<?php echo $result['id_groupe'];?>'">Plus de détails</button>
-                           <button class="cancel" onclick="window.location.href='deleteGroupe.php?id_groupe=<?php echo $result['id_groupe'];?>'">Supprimer</button>
+                           <button class="save"  onclick="update(<?php echo $result['id_mod'];?>)">Modifier</button>
+                           <script>
+                           function update(a){                       
+                        var theObject = new XMLHttpRequest();
+                         theObject.open('POST', 'editModule.php', true);
+                         theObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                          theObject.onreadystatechange = function() {
+                         if(theObject.readyState === 4 & theObject.status === 200) {
+                          document.getElementById('d2').innerHTML = theObject.responseText;}
+                              }
+                       theObject.send('id_mod='+a);
+  }
+                           </script>
+                           <button class="cancel" onclick="window.location.href='deleteModule.php?id_mod=<?php echo $result['id_mod'];?>'">Supprimer</button>
                           </td>
                             <?php
                 }                
@@ -206,18 +248,18 @@ select {
              <tbody>
              </table>
              <div id="d1">
-             <h3> Informations sur le Nouveau Groupe  </h3>
-              <form class ="form" action="ajouterGroupe.php" method="post" >
+             <h3> Informations sur le Nouveau Module </h3>
+              <form class ="form" action="ajouterModule.php" method="post" >
               <div class="control-group">
-                   <label  for="id_groupe">Identifiant &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="id_groupe" id="id_groupe">   
+                   <label  for="id_mod">Identifiant &nbsp&nbsp&nbsp </label>
+                   <input class="in"type="text" name="id_mod" id="id_mod">   
              </div>&nbsp&nbsp&nbsp
              <div class="control-group">
-                   <label  for="nomGroupe">Nom &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="nomGroupe" id="nomGroupe">   
+                   <label  for="nom">Nom &nbsp&nbsp&nbsp </label>
+                   <input class="in"type="text" name="nom" id="nom">   
              </div>&nbsp&nbsp&nbsp
               <div class="control-group">
-                   <label  for="nomGroupe">Niveau &nbsp&nbsp&nbsp</label>
+                   <label  for="niveau">Niveau &nbsp&nbsp&nbsp</label>
                    <select name="niveau" id="niveau"> 
                    <?php 
                     $req4=$pdo->prepare("select * from elearn.niveau ");
@@ -244,7 +286,26 @@ select {
                    
                     }
                    ?> 
-                   </select>               
+                   </select>
+                   </div>   <br/> <br/>
+                   <div class="control-group">
+                   <label  for="responsable">Responsable &nbsp&nbsp&nbsp</label>
+                   <select name="responsable" id="responsable"> 
+                   <?php 
+                    $req4=$pdo->prepare("select * from elearn.enseignant ");
+                    $req4->execute();
+                    while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
+                    {  
+                
+                      ?>
+                  <option value="<?php echo $result4["id_ens"];?>"><?php echo $result4["nom"]." ".$result4["prénom"];?></option>
+                        <?php
+                   
+                    }
+                   ?> 
+                   </select>   
+                   </div>
+                           
              
               <div class="btngroup">             
                    <input id ="A" class="save" type="submit" value="Ajouter">
@@ -252,6 +313,7 @@ select {
                     </div>
                </form>
               </div>
+              
             <div id="d2">
            
             </div>
@@ -274,6 +336,7 @@ select {
     
 
 function display() {
+document.getElementById('d2').style.display="none";
 document.getElementById('d1').style.display="block";
 }
 function cacher() {

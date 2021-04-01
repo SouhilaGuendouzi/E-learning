@@ -1,13 +1,11 @@
 <?php
 
         $id_etud=$_POST["id_etud"];
-        $id_etud=(int)$id_etud;
         $nom=$_POST["nom"];
         $prénom=$_POST["prénom"];
         $date_naissance=$_POST["date_naissance"];
         if(empty($date_naissance)===TRUE ) {$date_naissance=null; }
         $id_groupe=$_POST["groupe"];
-        $id_groupe=(int)$id_groupe;
         $host = "mysql:host = localhost ; dbname =elearn"; 
         $stop=FALSE;
         $stop1=FALSE; 

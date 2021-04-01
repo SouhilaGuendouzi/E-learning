@@ -3,8 +3,9 @@ $id_groupe=$_POST["id_groupe"];
 try {
     $host = "mysql:host = localhost ; dbname =elearn";
     $pdo = new PDO( $host, "root", "");
-    $req=$pdo->prepare("select * from elearn.etudiants where id_groupe=?");
+    $req=$pdo->prepare("select * from elearn.etudiant where id_groupe=?");
     $req->bindParam(1,$id_groupe);
+    $req->execute();
    ?>
    <table class="blue">
             <thead>

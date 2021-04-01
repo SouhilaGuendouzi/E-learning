@@ -141,7 +141,6 @@ h3 {
 </head>
 <body class="bd">
     <?php
-    $touch=FALSE;
     $login=$_SESSION["login"];
     $id_ens=null;
     $nom=null;
@@ -296,6 +295,7 @@ h3 {
     
 
 function display() {
+  document.getElementById('d2').style.display="none";
 document.getElementById('d1').style.display="block";
 }
 function cacher() {

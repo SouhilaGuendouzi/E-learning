@@ -9,7 +9,6 @@
 <body>
 <?php
 $id_ens=$_POST['id_ens'];
-$id_ens=(int)$id_ens;
 $host = "mysql:host = localhost ; dbname =elearn";
 if (!empty($id_ens)){
 $pdo = new PDO( $host, "root", "");
