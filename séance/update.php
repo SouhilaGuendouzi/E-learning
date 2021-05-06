@@ -23,21 +23,11 @@ if (!empty($id_séance)&&!empty($id_salle)&&!empty($type)&&!empty($id_groupe)&&!
         
         }
         if ($stop==TRUE){
-        $req=$pdo->prepare("select count(*) as total from elearn.séance where (id_groupe=? and jour=? and heure_debut=? and heure_fin=?) or (id_salle=? and jour=? and heure_debut=? and heure_fin=?) ");
-        $req->execute([$id_groupe,$jour,$heure_debut,$heure_fin,$id_salle,$jour,$heure_debut,$heure_fin]);
-        while ($result=$req->fetch(PDO::FETCH_ASSOC))
-        {
-            if ($result["total"]) $stop1=TRUE;
-            
-        }
-        if ($stop1==FALSE)
-        {
+       
             $req=$pdo->prepare("update elearn.séance set type=?,jour=?,heure_debut=?,heure_fin=?,id_mod=?,id_groupe=?,id_salle=? where id_séance=? ");   
             $req->execute([$type,$jour,$heure_debut,$heure_fin,$id_mod,$id_groupe,$id_salle,$id_séance]);
             header('Location: liste_séances.php');  
-        }
-    
-        else {echo "La séance ne peut pas écraser une autre séance ";}
+
         }
 
         else {echo "L'identifiant existe déja";}

@@ -63,10 +63,11 @@ if (!empty($id_séance)){
                       {
                         $année=$result5["année"];
                       }
+                      if ($result4["id_groupe"]!=-1){
                       ?>
                <option <?php if(strcmp($result["id_groupe"],$result4["id_groupe"])==0){echo "selected";}?> value="<?php echo $result4["id_groupe"];?>"><?php echo $result4["nomGroupe"]." ".$année." année  ".$spec;?></option>
                         <?php
-                   
+                      }
                     }
                    ?> 
                    </select> 
@@ -78,11 +79,11 @@ if (!empty($id_séance)){
                     $req4=$pdo->prepare("select * from elearn.salle ");
                     $req4->execute();
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
-                    {  
+                    {  if ($result4["id_salle"]!=-1){
                       ?>
                <option <?php if(strcmp($result["id_salle"],$result4["id_salle"])==0){echo "selected";}?>  value="<?php echo $result4["id_salle"];?>"><?php echo $result4["salle"]." ".$result4["type"];?></option>
                         <?php
-                   
+                    }
                     }
                    ?> 
                    </select> 
@@ -94,11 +95,11 @@ if (!empty($id_séance)){
                     $req4=$pdo->prepare("select * from elearn.module");
                     $req4->execute();
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
-                    {  
+                    {  if($result4["id_mod"]!=-1){
                       ?>
                <option <?php if(strcmp($result["id_mod"],$result4["id_mod"])==0){echo "selected";}?> value="<?php echo $result4["id_mod"];?>"><?php echo $result4["nom"];?></option>
                         <?php
-                   
+                    }
                     }
                    ?> 
                    </select> 
@@ -106,13 +107,13 @@ if (!empty($id_séance)){
                    <div class="control-group">
                    <label  for="jour">Jour &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
                    <select name="jour" id="jour">    
-                   <option <?php if(strcmp($result["jour"],"samedi")==0){echo "selected";}?> value="samedi">Samedi</option>
-                   <option <?php if(strcmp($result["jour"],"dimanche")==0){echo "selected";}?> value="dimanche">Dimanche</option>      
-                   <option <?php if(strcmp($result["jour"],"lundi")==0){echo "selected";}?> value="lundi">Lundi</option> 
-                   <option <?php if(strcmp($result["jour"],"mardi")==0){echo "selected";}?> value="mardi">Mardi</option> 
-                   <option <?php if(strcmp($result["jour"],"mercredi")==0){echo "selected";}?> value="mercredi">Mercredi</option>
-                   <option <?php if(strcmp($result["jour"],"jeudi")==0){echo "selected";}?> value="jeudi">Jeudi</option>
-                   <option <?php if(strcmp($result["jour"],"vendredi")==0){echo "selected";}?> value="vendredi">Vendredi</option>     
+                   <option <?php if(strcmp($result["jour"],"1")==0){echo "selected";}?> value="1">Samedi</option>
+                   <option <?php if(strcmp($result["jour"],"2")==0){echo "selected";}?> value="2">Dimanche</option>      
+                   <option <?php if(strcmp($result["jour"],"3")==0){echo "selected";}?> value="3">Lundi</option> 
+                   <option <?php if(strcmp($result["jour"],"4")==0){echo "selected";}?> value="4">Mardi</option> 
+                   <option <?php if(strcmp($result["jour"],"5")==0){echo "selected";}?> value="5">Mercredi</option>
+                   <option <?php if(strcmp($result["jour"],"6")==0){echo "selected";}?> value="6">Jeudi</option>
+                   <option <?php if(strcmp($result["jour"],"7")==0){echo "selected";}?> value="7">Vendredi</option>     
                    </select> 
                 </div>  &nbsp&nbsp&nbsp&nbsp&nbsp                 
                 <div class="control-group">

@@ -178,7 +178,7 @@ select {
                 $req=$pdo->prepare("select id_groupe , nomGroupe, nom , année from elearn.groupe natural join elearn.niveau natural join elearn.année natural join elearn.spécialité ");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
-                {
+                {    if ($result["id_groupe"]!=-1){
                        ?>
                        <tr>
                         <td>
@@ -201,7 +201,7 @@ select {
                            <button class="cancel" onclick="window.location.href='deleteGroupe.php?id_groupe=<?php echo $result['id_groupe'];?>'">Supprimer</button>
                           </td>
                             <?php
-                }                
+                } }             
              ?>
              <tbody>
              </table>
@@ -238,11 +238,14 @@ select {
                       {
                         $id_spec=$result5["nom"];
                       }
+                      if ($result4["id_niv"]!=-1 ){
                       ?>
+                      
                <option value="<?php echo $result4["id_niv"];?>"><?php echo $id_année." année  ".$id_spec;?></option>
                         <?php
                    
                     }
+                  }
                    ?> 
                    </select>               
              
@@ -273,11 +276,13 @@ select {
     <script>
     
 
-function display() {
-document.getElementById('d1').style.display="block";
+    function display() {
+  $('#d1').show();
+ 
+window.location.href='liste_enseignants.php#d1'
 }
 function cacher() {
-document.getElementById('d1').style.display="none";
+  $('#d1').hide();
 }
 
 

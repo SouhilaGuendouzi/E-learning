@@ -235,7 +235,10 @@ select {
                          theObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                           theObject.onreadystatechange = function() {
                          if(theObject.readyState === 4 & theObject.status === 200) {
+                          document.getElementById('d1').style.display="none";
                           document.getElementById('d2').innerHTML = theObject.responseText;
+                          document.getElementById('d2').style.display="block";
+                          window.location.href='listes_etudiants.php#d2';
     }
 }
                        theObject.send('id_etud='+a);
@@ -276,9 +279,10 @@ select {
                     $req3->execute();
                     while ($result3 = $req3->fetch(PDO::FETCH_ASSOC))
                     { $spec=TRUE;
+                      if ($result3["id_groupe"]!=-1){
                    ?> <option value="<?php echo $result3["id_groupe"];?>"><?php echo $result3["nomGroupe"]." ".$result3["année"]."année ".$result3["nom"];?></option>
                         <?php
-                    }
+                    }}
                    ?>   
           
               </select>
@@ -313,6 +317,7 @@ select {
 function display() {
   document.getElementById('d2').style.display="none";
 document.getElementById('d1').style.display="block";
+window.location.href='listes_etudiants.php#d1';
 }
 function cacher() {
 document.getElementById('d1').style.display="none";

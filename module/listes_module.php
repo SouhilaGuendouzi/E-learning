@@ -179,7 +179,8 @@ select {
                 $req=$pdo->prepare("select * from  elearn.module natural join elearn.niveau   ");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
-                {
+                { if ($result["id_mod"]!=-1)
+                  {
                        ?>
                        <tr>
                         <td>
@@ -217,13 +218,19 @@ select {
                        </td>
 
                        <td>
-                      <?php $req1=$pdo->prepare("select * from elearn.enseignant where id_ens=?   ");
+                      
+                      <?php 
+                      if ($result["id_ens"]!=-1)
+                      {
+                      $req1=$pdo->prepare("select * from elearn.enseignant where id_ens=?   ");
                             $req1->bindParam(1,$result["id_ens"]);
                             $req1->execute();
                             while ($result1 = $req1->fetch(PDO::FETCH_ASSOC))
                             {
                                   echo $result1["nom"]." ".$result1["prénom"];
                             }
+                          }
+                      else echo "Aucun";
                     ?>
                        </td>                    
                            <td>
@@ -235,7 +242,11 @@ select {
                          theObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                           theObject.onreadystatechange = function() {
                          if(theObject.readyState === 4 & theObject.status === 200) {
-                          document.getElementById('d2').innerHTML = theObject.responseText;}
+                          document.getElementById('d1').style.display="none";
+                          document.getElementById('d2').innerHTML = theObject.responseText;
+                          document.getElementById('d2').style.display="block";
+                          window.location.href='listes_module.php#d2'
+                          }
                               }
                        theObject.send('id_mod='+a);
   }
@@ -243,7 +254,8 @@ select {
                            <button class="cancel" onclick="window.location.href='deleteModule.php?id_mod=<?php echo $result['id_mod'];?>'">Supprimer</button>
                           </td>
                             <?php
-                }                
+                }  
+              }              
              ?>
              <tbody>
              </table>
@@ -280,10 +292,11 @@ select {
                       {
                         $id_spec=$result5["nom"];
                       }
+                      if ($result4["id_niv"]!=-1){
                       ?>
                <option value="<?php echo $result4["id_niv"];?>"><?php echo $id_année." année  ".$id_spec;?></option>
                         <?php
-                   
+                   }
                     }
                    ?> 
                    </select>
@@ -296,12 +309,13 @@ select {
                     $req4->execute();
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
                     {  
-                
+                      if ($result4["id_ens"]!=-1){
                       ?>
                   <option value="<?php echo $result4["id_ens"];?>"><?php echo $result4["nom"]." ".$result4["prénom"];?></option>
                         <?php
                    
                     }
+                  }
                    ?> 
                    </select>   
                    </div>
@@ -335,12 +349,14 @@ select {
     <script>
     
 
-function display() {
-document.getElementById('d2').style.display="none";
-document.getElementById('d1').style.display="block";
+    function display() {
+  $('#d2').hide();
+  $('#d1').show();
+ 
+window.location.href='liste_enseignants.php#d1'
 }
 function cacher() {
-document.getElementById('d1').style.display="none";
+  $('#d1').hide();
 }
 
 

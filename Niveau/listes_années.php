@@ -14,7 +14,8 @@
                 $req=$pdo->prepare("select * from elearn.année");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
-                {    ?>
+                {      if ($result["id_année"]!=-1){
+                     ?>
                             <tr>
                              <td>
                             <?php     
@@ -32,7 +33,7 @@
                                
                                </td></tr>
                          <?php            
-                }                
+                }  }              
              ?>
 <tbody>
 </table>

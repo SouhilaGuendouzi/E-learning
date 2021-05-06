@@ -14,7 +14,8 @@
                 $req=$pdo->prepare("select * from elearn.spécialité");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
-                {    ?>
+                {     if ($result["id_spec"]!=-1){
+                      ?>
                             <tr>
                              <td>
                             <?php     
@@ -30,7 +31,7 @@
                                 <button class="cancel" onclick="window.location.href='deleteSpécialité.php?id_spec=<?php echo $result['id_spec'];?>'">Supprimer</button>                              
                                </td></tr>
                          <?php            
-                }                
+                } }               
              ?>
 <tbody>
 </table>

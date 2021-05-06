@@ -238,7 +238,29 @@ h3 {
                        </td>
                        <td>
                        <?php     
-                       echo $result["jour"];
+                       switch ($result["jour"]) {
+                        case 1:
+                            echo "Samedi";
+                            break;
+                        case 2:
+                            echo "Dimanche";
+                            break;
+                        case 3:
+                            echo "Lundi";
+                            break;
+                       case 4:
+                            echo "Mardi";
+                            break;
+                       case 5:
+                         echo "Mercredi";
+                             break;
+                        case 6:
+                         echo "Jeudi";
+                            break;
+                       case 7:
+                        echo "Vendredi";
+                           break;
+                    }
                        ?>
                       </td>
                       <td>
@@ -318,14 +340,17 @@ h3 {
                       {
                         $année=$result5["année"];
                       }
+                      if ($result4["id_groupe"]!=-1){
                       ?>
+                      
                <option value="<?php echo $result4["id_groupe"];?>"><?php echo $result4["nomGroupe"]." ".$année." année  ".$spec;?></option>
                         <?php
                    
-                    }
+                    }}
                    ?> 
                    </select> 
-                   </div> <br/><br/>  
+                   </div> <br/><br/>
+                     
                    <div class="control-group">
                    <label  for="salle">Salle &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
                    <select  name="salle" id="salle"> 
@@ -334,11 +359,13 @@ h3 {
                     $req4->execute();
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
                     {  
+                      if ($result4["id_salle"]!=-1){
                       ?>
+                      
                <option value="<?php echo $result4["id_salle"];?>"><?php echo $result4["salle"]." ".$result4["type"];?></option>
                         <?php
                    
-                    }
+                    }}
                    ?> 
                    </select> 
                    </div> &nbsp&nbsp&nbsp
@@ -349,25 +376,25 @@ h3 {
                     $req4=$pdo->prepare("select * from elearn.module");
                     $req4->execute();
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
-                    {  
+                    { if ($result4["id_mod"]!=-1){ 
                       ?>
                <option value="<?php echo $result4["id_mod"];?>"><?php echo $result4["nom"];?></option>
                         <?php
                    
-                    }
+                    }}
                    ?> 
                    </select> 
                    </div> <br/><br/>
                    <div class="control-group">
                    <label  for="jour">Jour &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
                    <select name="jour" id="jour">    
-                   <option value="samedi">Samedi</option>
-                   <option value="dimanche">Dimanche</option>      
-                   <option value="lundi">Lundi</option> 
-                   <option value="mardi">Mardi</option> 
-                   <option value="mercredi">Mercredi</option>
-                   <option value="jeudi">Jeudi</option>
-                   <option value="vendredi">Vendredi</option>     
+                   <option value="1">Samedi</option>
+                   <option value="2">Dimanche</option>      
+                   <option value="3">Lundi</option> 
+                   <option value="4">Mardi</option> 
+                   <option value="5">Mercredi</option>
+                   <option value="6">Jeudi</option>
+                   <option value="7">Vendredi</option>     
                    </select> 
                 </div>  &nbsp&nbsp&nbsp                     
                 <div class="control-group">
@@ -406,12 +433,14 @@ h3 {
     <script>
     
 
-function display() {
-document.getElementById('d2').style.display="none";
-document.getElementById('d1').style.display="block";
+    function display() {
+  $('#d2').hide();
+  $('#d1').show();
+ 
+window.location.href='liste_enseignants.php#d1'
 }
 function cacher() {
-document.getElementById('d1').style.display="none";
+  $('#d1').hide();
 }
 
 

@@ -33,9 +33,10 @@ while ($result = $req->fetch(PDO::FETCH_ASSOC))
                     while ($result4 = $req4->fetch(PDO::FETCH_ASSOC))
                     {
                         $année=TRUE;
+                        if ($result4["id_année"]!=-1){
                    ?> <option <?php if(strcmp($result["id_année"],$result4["id_année"])==0){echo "selected";}?> value="<?php echo $result4["id_année"];?>"><?php echo $result4["année"];?></option>
                         <?php
-                    }
+                    }}
                    ?> 
                    </select>               
               </div>&nbsp&nbsp&nbsp 
@@ -47,9 +48,10 @@ while ($result = $req->fetch(PDO::FETCH_ASSOC))
                     $req3->execute();
                     while ($result3 = $req3->fetch(PDO::FETCH_ASSOC))
                     { $spec=TRUE;
+                         if ($result3["id_spec"]!=-1){
                    ?> <option <?php if(strcmp($result["id_spec"],$result3["id_spec"])==0){echo "selected";}?> value="<?php echo $result3["id_spec"];?>"><?php echo $result3["nom"];?></option>
                         <?php
-                    }
+                    }}
                    ?>    
                    </select>               
               </div>&nbsp&nbsp&nbsp 

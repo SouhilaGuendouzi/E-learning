@@ -4,7 +4,8 @@ session_start()
 <!DOCTYPE html>
 <html>
     <head>
-    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery.min.js">
+    var s=null;</script>
         <title>
             Liste
          </title>
@@ -105,7 +106,7 @@ h3 {
   }
   .form {  
    margin-top:2%;
-   margin-left:5%;
+   margin-left:10%;
  
 }
   
@@ -136,7 +137,7 @@ h3 {
     margin-top:5%;
 }
 select {
-    width :25%;
+  width:25%;
 }
 
     </style>
@@ -144,8 +145,11 @@ select {
 <body class="bd">
     <?php
     $login=$_SESSION["login"];
-    $id_année=null;
-    $id_spec=null;
+    $id_ens=null;
+    $nom=null;
+    $prénom=null;
+    $date_naissance=null;
+    $grade=null;
     $pass=$_SESSION["pass"];
     $host = "mysql:host = localhost ; dbname =elearn";
     if (!empty($login)&&(!empty($pass))){
@@ -154,7 +158,8 @@ select {
             $req=$pdo->prepare("select * from elearn.users where login=? and pass =?");
             $req->bindParam(1,$login);
             $req->bindParam(2,$pass);
-            $req->execute();   
+            $req->execute();
+            
             while ($req->fetchAll())
             {
               $stop=TRUE;
@@ -162,87 +167,116 @@ select {
             if ($stop==TRUE)
             {  ?>
 
-            <h1>La liste des Groupes</h1>
-            <button href="#d1" onclick="display()" class="ajouter">Ajouter Une Salle</button>
+            <h1>La liste des Enseignants </h1>
+            <button onclick="display()" class="ajouter">Ajouter</button>
             <table class="blue">
             <thead>
               <tr>
               <th>Identifiant</th>
-              <th>Salle </th>
-              <th>Type </th>
+              <th>Nom </th>
+              <th>Prénom</th>
+              <th>grade</th>
+              <th>Date de Naissance</th>
               <th>Option</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $req=$pdo->prepare("select * from elearn.salle");
+                $req=$pdo->prepare("select id_ens , nom , prénom , grade , date_naissance from elearn.enseignant");
                 $req->execute();
                 while ($result = $req->fetch(PDO::FETCH_ASSOC))
-                {
+                {   if ($result["id_ens"]!=-1){
                        ?>
                        <tr>
                         <td>
                        <?php     
-                       echo $result["id_salle"];
+                      
+                       echo $result["id_ens"];
                        ?>
                      
                    </td>
                    <td>
                        <?php
-                       echo $result["salle"];
+                       echo $result["nom"];
                        ?>
                       </td>
                       <td>
                        <?php
-                      echo $result["type"];
-                       ?>                     
+                   echo $result["prénom"];
+                       ?>
+                       </td>
+                       <td>
+                       <?php
+                       echo $result["grade"];
+                       ?>
+                        </td>
+                       <td>
+                       <?php                    
+                       echo $result["date_naissance"];
+                       ?>
+                        </td>                           
                            <td>
-                           <button class="save"href="#d2" onclick="update(<?php echo $result['id_salle'];?>)">Modifier</button>
+                           <button class="save"href="#d2" onclick="update(<?php echo $result['id_ens'];?>)">Modifier</button>
                            <script>
-                           function update(a){                       
+                           function update(a){                         
                         var theObject = new XMLHttpRequest();
-                         theObject.open('POST', 'editSalle.php', true);
+                         theObject.open('POST', 'update.php', true);
                          theObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                           theObject.onreadystatechange = function() {
                          if(theObject.readyState === 4 & theObject.status === 200) {
-                          document.getElementById('d2').innerHTML = theObject.responseText;}
-                              }
-                       theObject.send('id_salle='+a);
+                          document.getElementById('d1').style.display="none";
+                          window.location.href='liste_enseignants.php#d2';
+                          document.getElementById('d2').style.display="block";
+                          document.getElementById('d2').innerHTML = theObject.responseText;
+    }
+}
+                       theObject.send('id_ens='+a);
   }
                            </script>
-                           <button class="cancel" onclick="window.location.href='deleteSalle.php?id_salle=<?php echo $result['id_salle'];?>'">Supprimer</button>
+                           <button class="cancel" onclick="window.location.href='delete_enseignant.php?id_ens=<?php echo $result['id_ens'];?>'">Supprimer</button>
                           </td>
                             <?php
-                }                
+                }   
+              }             
              ?>
              <tbody>
              </table>
              <div id="d1">
-             <h3> Informations sur la Nouvelle Salle</h3>
-              <form class ="form" action="ajouterSalle.php" method="post" >
-              <div class="control-group">
-                   <label  for="id_salle">Identifiant &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="id_salle" id="id_salle">   
-             </div>&nbsp&nbsp&nbsp
-             <div class="control-group">
-                   <label  for="nom">Salle &nbsp&nbsp&nbsp </label>
-                   <input class="in"type="text" name="nom" id="nom">   
-             </div>&nbsp&nbsp&nbsp
-              <div class="control-group">
-                   <label  for="type">Type &nbsp&nbsp&nbsp</label>
-                   <select name="type" id="type">    
-                   <option value="TD">TD</option>
-                   <option value="TP">TP</option>      
-                   <option value="COURS">COURS</option>   
-                   </select> 
-                </div>              
-             
-              <div class="btngroup">             
-                   <input id ="A" class="save" type="submit" value="Ajouter">
+             <h3> Informations sur le nouveau enseignant</h3>
+            
+            <form class ="form" action="ajouter.php" method="post" >
+            <div class="control-group">
+                   <label  for="id_ens">Identifiant &nbsp&nbsp&nbsp </label>
+                   <input class="in"type="text" name="id_ens" id="id_ens">   
+            </div>&nbsp&nbsp&nbsp
+            <div class="control-group">
+                   <label  for="nom">Nom &nbsp&nbsp&nbsp</label>
+                   <input class="in"type="text" name="nom" id="nom">                    
+            </div>&nbsp&nbsp&nbsp
+            <div class="control-group">
+                   <label  for="prénom">Prénom &nbsp&nbsp&nbsp</label>
+                   <input class="in"type="text" name="prénom" id="prénom">                    
+            </div><br/><br/>
+            <div class="control-group">
+                   <label  for="date_naissance">Date de naissance &nbsp&nbsp&nbsp</label>
+                   <input class="in"type="date" name="date_naissance" id="date_naissance">                    
+            </div>&nbsp&nbsp&nbsp
+            <div class="control-group">
+            <label  for="grade">Grade &nbsp&nbsp&nbsp</label>
+            <select name="grade" id="grade">
+            <option value="Dr">Doctorant</option>
+            <option value="MCA">Maitre conférence classe A</option>
+            <option value="MCB">Maitre conférence classe B</option>
+            <option value="MCC">Maitre conférence classe C</option>
+            <option value="Pr">Proffeseur</option>
+              </select>
+            </div>
+            <div class="btngroup">             
+                   <input class="save" type="submit" value="Ajouter">
                    <input class="cancel"type="reset" onclick="cacher()"value="annuler">
                     </div>
-               </form>
-              </div>
+            </form>
+            </div>
             <div id="d2">
            
             </div>
@@ -265,11 +299,13 @@ select {
     
 
 function display() {
-document.getElementById('d2').style.display="none";
-document.getElementById('d1').style.display="block";
+  $('#d2').hide();
+  $('#d1').show();
+ 
+window.location.href='liste_enseignants.php#d1'
 }
 function cacher() {
-document.getElementById('d1').style.display="none";
+  $('#d1').hide();
 }
 
 
